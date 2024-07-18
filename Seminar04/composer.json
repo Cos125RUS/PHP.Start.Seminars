@@ -1,0 +1,14 @@
+{
+    "name": "app/code",
+    "autoload": {
+        "psr-4": {
+            "App\\Code\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Valerii Panov"
+        }
+    ],
+    "require": {}
+}
