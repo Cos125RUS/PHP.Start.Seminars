@@ -1,1 +1,4 @@
-/Seminar03/code_lesson3_dz2/php-cli/code/vendor/
+**/vendor/
+**/.idea/
+**/*.lock
+**/db/
