@@ -65,7 +65,7 @@ class User {
         $users = [];
 
         foreach($result as $item){
-            $user = new User($item['user_name'], $item['user_lastname'], $item['user_birthday_timestamp']);
+            $user = new User($item['user_name'], $item['user_lastname'], $item['user_birthday_timestamp'], $item['id_user']);
             $users[] = $user;
         }
         

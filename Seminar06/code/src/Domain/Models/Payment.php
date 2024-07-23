@@ -8,7 +8,7 @@ use \PDO;
 class Payment
 {
     private ?int $id_user_payment;
-    private ?float $amount;
+    private ?int $amount;
     private ?int $payment_timestamp;
     private ?int $id_user;
 
@@ -22,12 +22,12 @@ class Payment
         $this->id_user_payment = $id_user_payment;
     }
 
-    public function getAmount(): float
+    public function getAmount(): int
     {
         return $this->amount;
     }
 
-    public function setAmount(?float $amount): void
+    public function setAmount(?int $amount): void
     {
         $this->amount = $amount;
     }
@@ -54,8 +54,9 @@ class Payment
 
     public function __toString(): string
     {
-        $date = strtotime($this->getPaymentTimestamp() ?? time());
-        return "{$this->getIdUserPayment()} . {$this->getAmount()} . $date . {$this->getIdUser()}";
+        $date = date('d-m-y H:i', $this->getPaymentTimestamp());
+        $amount = $this->getAmount() / 100;
+        return "{$this->getIdUserPayment()} | $amount | $date | {$this->getIdUser()}";
     }
 
 
@@ -78,6 +79,24 @@ class Payment
 //            $payment->setIdUser($item['id_user']);
 //            $payments[] = "$payment";
 //        }
+        return $payments;
+    }
+
+    public static function getById(): false|array
+    {
+        $sql = 'select users.user_name, users.user_lastname, amount FROM users inner join user_payment on users.id_user = user_payment.id_user where users.id_user = :id';
+        $id = (int)$_GET['id'] ?? 0;
+
+        $connect = Application::$storage->get();
+        $request = $connect->prepare($sql);
+        $request->execute(["id" => $id]);
+        $request->setFetchMode(PDO::FETCH_ASSOC);
+        $data = $request->fetchAll();
+        $payments = [];
+        foreach ($data as $item) {
+            $payment = "{$item['user_name']} {$item['user_lastname']} {$item['amount']}";
+            $payments[] = "$payment";
+        }
         return $payments;
     }
 }

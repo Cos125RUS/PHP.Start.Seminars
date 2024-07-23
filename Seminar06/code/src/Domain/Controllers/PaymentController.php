@@ -17,4 +17,17 @@ class PaymentController
             'payments' => $payments
         ]);
     }
+
+    public function actionFind()
+    {
+        $render = new Render();
+        $id = (int)$_GET['id'] ?? 0;
+
+        $payments = Payment::getById();
+        return $render->renderPage('payment-find.tpl', [
+            'title' => 'Страница платежей выбранного юзера',
+            'payments' => $payments,
+            'id' => $id
+        ]);
+    }
 }
